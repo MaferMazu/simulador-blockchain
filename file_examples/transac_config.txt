@@ -1,0 +1,5 @@
+frecuencia: 1
+NumEntradasMin: 1
+NumEntradasMax: 3
+NumSalidasMin: 1
+NumSalidasMax: 3
