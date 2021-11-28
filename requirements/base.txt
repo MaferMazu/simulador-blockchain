@@ -15,6 +15,7 @@ merkletools==1.0.3
 packaging==21.2
 platformdirs==2.4.0
 pluggy==1.0.0
+pudb==2021.2.2
 py==1.11.0
 pycodestyle==2.8.0
 pydocstyle==6.1.1
@@ -31,3 +32,4 @@ toml==0.10.2
 typing-extensions==3.10.0.2
 urllib3==1.26.7
 wrapt==1.13.3
+git+https://github.com/MaferMazu/python-p2p-network.git@mfmz/blockchain-simulator#egg=p2pnetwork

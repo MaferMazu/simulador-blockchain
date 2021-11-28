@@ -76,7 +76,15 @@ class Identities:
             name = f"{faker.first_name().lower()}"
             email = f"{name}.{faker.last_name().lower()}@{faker.domain_name()}"
             self.gen_identity(name, email)
-          
+
+    def gen_x_nodes(self, num):
+        """Generates <num> nodes."""
+
+        for i in range(1,num+1):
+            node_name = f"nodo{i}"
+            email = f"{node_name}@example.com"
+            self.gen_identity(node_name, email)
+
 
     def gen_identity(self, name, email):
         """Generate identity with data."""

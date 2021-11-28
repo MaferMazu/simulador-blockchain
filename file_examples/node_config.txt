@@ -1,3 +1,3 @@
-TamanioMaxBloque: 512
-TiempoPromedioCreacionbloque: 1
-DificultadInicial: 1000
+TamanioMaxBloque: 513
+TiempoPromedioCreacionbloque: 3
+DificultadInicial: 1001

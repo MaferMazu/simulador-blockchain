@@ -20,6 +20,6 @@ def gen_identi(identities, nodes):
 
     network = Network()
     network.identities.gen_x_identities(identities)
-    network.gen_x_nodes(nodes)
+    network.identities.gen_x_nodes(nodes)
     export_data("network", network)
     click.echo(f">> {identities} identidades y {nodes} nodos fueron generados.")
