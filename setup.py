@@ -40,7 +40,9 @@ def is_requirement(line):
 setup(
     name='simulador-blockchain',
     version=1.0,
-    description="""Es una aplicación P2P desarrollada en Python que simula el comportamiento de una red Blockchain simplificada. Este prototipo usa las definiciones de bloques y transacciones como las usadas por la red Bitcoin.""",
+    description="""Es una aplicación P2P desarrollada en Python que simula el \
+        comportamiento de una red Blockchain simplificada. Este prototipo usa \
+        las definiciones de bloques y transacciones como las usadas por la red Bitcoin.""",
     long_description=README,
     author='Maria Fernanda Magallanes Z',
     author_email='mafer.mazu8@gmail.com',

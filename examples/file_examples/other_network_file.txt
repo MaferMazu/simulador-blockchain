@@ -1,0 +1,11 @@
+5
+nodo1 9211
+nodo2 9212
+nodo3 9213
+nodo4 9214
+nodo5 9215
+4
+nodo1 nodo2
+nodo1 nodo3
+nodo1 nodo4
+nodo1 nodo5

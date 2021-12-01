@@ -4,18 +4,20 @@ from datetime import datetime
 import click
 
 from models.identity import Identities
+from models.transaction import Transactions
 from models.node import Node
 
 
 class Network:
     """Class Network."""
 
-    def __init__(self, identities: Identities=Identities()):
+    def __init__(self, identities:Identities=Identities(), transactions:Transactions=Transactions()):
         """Init."""
         self.nodes = []
         self.identities = identities
         self.node_config = {"max_block_size": 512, "avgtime": 1, "difficulty": 1000}
         self.directory = None
+        self.transactions = transactions
 
 
     def __str__(self):
@@ -49,6 +51,29 @@ class Network:
             "nodes": [node.to_dict() for node in self.nodes],
             "identities": [str(identity) for identity in self.identities.identities],
             }
+
+    
+    def read_node_file_for_transactions(self, path):
+        """Read nodes file."""
+        self.transactions.config["nodes"]=set()
+        with open(path, "r") as my_file:
+            lines = my_file.readlines()
+            nodes_num = int(lines[0])
+            nodes = lines[1:nodes_num+1]
+            for elem in nodes:
+                if elem:
+                    token = elem.split(" ")
+                    name = token[0]
+                    node = self.search_node_by_name(name)
+                    if node:
+                        self.transactions.config["nodes"].add(node)
+
+
+    def propagation(self, node, data):
+        """Propagate info for nodes."""
+        nodes = self.nodes.copy()
+        nodes.remove(node)
+        node.propagation(nodes, data)
 
 
     def read_network_file(self, path):
@@ -104,15 +129,24 @@ class Network:
                 "avgtime": avg_time,
                 "difficulty": difficulty}
 
-# network = Network()
-# network.identities.gen_x_identities(5)
-# network.identities.gen_x_nodes(5)
-# network.read_network_file("file_examples/network_file.txt")
-# assert len(network.identities) == 10
-# assert len(network.nodes) == 5
-# nodo1 = network.search_node_by_name("nodo1")
-# nodo2 = network.search_node_by_name("nodo2")
-# nodo3 = network.search_node_by_name("nodo3")
-# assert len(nodo1.adj) == 1
-# assert len(nodo2.adj) == 2
-# assert len(nodo3.adj) == 3
+network = Network()
+network.identities.gen_x_identities(5)
+network.identities.gen_x_nodes(5)
+# import pudb; pu.db
+network.read_network_file("examples/file_examples/other_network_file.txt")
+nodo1 = network.search_node_by_name("nodo1")
+nodo2 = network.search_node_by_name("nodo2")
+nodo3 = network.search_node_by_name("nodo3")
+nodo1.start()
+nodo2.start()
+nodo3.start()
+nodo2.connect_with_node(nodo1.host, int(nodo1.port))
+nodo3.connect_with_node(nodo1.host, int(nodo1.port))
+
+network.read_node_file_for_transactions("examples/file_examples/other_node_file.txt")
+
+network.propagation(nodo2, "hola")
+
+nodo1.stop()
+nodo2.stop()
+nodo3.stop()

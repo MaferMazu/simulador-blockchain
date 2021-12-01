@@ -1,18 +1,19 @@
 """Node command."""
 
 import click
-from models.network import Network
 
 from models.common import import_data, export_data
 
 
 @click.command(name="node")
 @click.option("-n","name", default="nodo1", type=str, help="nombre de nodo a invocar")
-@click.option("-d","direc", default="file_examples", type=str, help="directorio de logs")
+@click.option("-d","direc", default="examples/file_examples", type=str, help="directorio de logs")
 @click.option("-f","file", default=None, type=str, help="archivo con info de la red")
 @click.option("-c","config", default=None, type=str, help="archivo de configuracion de los nodos")
+@click.option("-s","stop", is_flag=True, default=False)
 def node():
     """Exec node."""
+    # pylint: disable=undefined-variable
     network = import_data("network")
 
     if config:
@@ -25,13 +26,15 @@ def node():
         network.directory = direc
         click.echo(f">> Se ha asignado {dir} como directorio de logs.")
     if name:
-        node = network.search_node_by_name(name)
-        if node:
-            try:
-                node.is_on = True
-                node.start()
-                click.echo(f">> Se ha inicializado el {name}.")
-            except Exception as e:
-                node.is_on = False
-                click.echo(f">> No se inicializó el nodo por el error:\n{e}.")
+        node_to_activate = network.search_node_by_name(name)
+        if node_to_activate:
+            if stop:
+                node_to_activate.stop()
+            else:
+                try:
+                    node_to_activate.start()
+                    click.echo(f">> Se ha inicializado el {name}.")
+                except ConnectionError as error:
+                    node_to_activate.is_on = False
+                    click.echo(f">> No se inicializó el nodo por el error:\n{error}.")
     export_data("network", network)
