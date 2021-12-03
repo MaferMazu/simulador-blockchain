@@ -1,15 +1,18 @@
-"""Test Identity Class and Functions."""
+"""Test Block Class and Functions."""
 from faker import Faker
 
 from models.block import Block, BlockHeader, generate_merkle_root
+from models.transaction import Transaction
 
 faker = Faker()
+
 
 def test_create_blockheader():
     """Test Create BlockHeader."""
     previous_hash = str(faker.sha256())
     difficulty = 0
-    transactions = faker.words(7)
+    transaction = Transaction([], [])
+    transactions = [transaction]
     blockheader = BlockHeader(previous_hash, difficulty, transactions)
     assert str(blockheader) == str(blockheader.to_dict())
 
@@ -18,16 +21,17 @@ def test_create_block():
     """Test Create Block."""
     previous_hash = str(faker.sha256())
     difficulty = 0
-    transactions = faker.words(7)
+    transaction = Transaction([], [])
+    transactions = [transaction]
     blockheader = BlockHeader(previous_hash, difficulty, transactions)
     block_hash = str(faker.sha256())
     miner = faker.first_name().lower()
     block = Block(blockheader, block_id=1,
-        block_hash=block_hash, miner=miner,
-        transactions=transactions
-        )
+            block_hash=block_hash, miner=miner,
+            transactions=transactions
+            )
     assert str(blockheader) == str(block.block_header)
-    assert len(block.transactions) == 7
+    assert len(block.transactions) == 1
     assert block.block_size > 40
 
 

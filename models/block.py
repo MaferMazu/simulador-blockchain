@@ -15,25 +15,23 @@ class BlockHeader:
         self.difficulty = difficulty
         self.merkle_root = generate_merkle_root(transactions)
 
-
     def __str__(self):
         """String function."""
         return str(self.to_dict())
 
-
     def to_dict(self):
         """Transform to dict."""
         return {
-            "previous_hash": self.previous_hash,
-            "timestamp": str(self.timestamp),
-            "difficulty": self.difficulty,
-            "merkle_root": self.merkle_root,
-            }
+                "previous_hash": self.previous_hash,
+                "timestamp": str(self.timestamp),
+                "difficulty": self.difficulty,
+                "merkle_root": self.merkle_root,
+                }
 
 
 class Block:
     """Block Class."""
-    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-arguments, too-many-instance-attributes
     def __init__(self, block_header: BlockHeader, block_id, block_hash, miner, transactions):
         """Init function."""
         self.block_id = block_id
@@ -50,17 +48,15 @@ class Block:
         fee = 0
         for transaction in self.transactions:
             fee += transaction.get_fee()
-
+        return fee
 
     def _calculate_block_size(self):
         """Calculate block size."""
         return getsizeof(self)
 
-
     def __str__(self):
         """String function."""
         return str(self.to_dict())
-
 
     def to_dict(self):
         """Transform to dict."""

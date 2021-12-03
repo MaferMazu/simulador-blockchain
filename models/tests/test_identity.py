@@ -1,10 +1,11 @@
 """Test Identity Class and Functions."""
-from faker import Faker
 from cryptos import Bitcoin
-from models.identity import Identity, Identities
+from faker import Faker
 
+from models.identity import Identities, Identity
 
 faker = Faker()
+
 
 def test_create_identity():
     """Test Create Identity."""

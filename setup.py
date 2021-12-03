@@ -4,7 +4,6 @@ from os import path
 
 from setuptools import setup
 
-
 with open(path.join(path.dirname(__file__), 'README.md'), 'r', encoding='utf-8') as f:
     README = f.read()
 

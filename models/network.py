@@ -12,29 +12,27 @@ from models.transaction import Output, Transactions
 
 class Network:
     """Class Network."""
-
-    def __init__(self, identities:Identities=Identities(), transactions:Transactions=Transactions()):
+    # pylint: disable=line-too-long
+    def __init__(self, identities:Identities = Identities(), transactions:Transactions = Transactions()):
         """Init."""
-        self.nodes = list()
+        self.nodes = []
         self.identities = identities
         self.node_config = {"max_block_size": 512, "avgtime": 1, "difficulty": 1000}
         self.directory = None
         self.transactions = transactions
 
-
     def __str__(self):
         """String method."""
         return str(self.to_dict())
 
-
-    def add_log(self, node: Node, msg:click.Choice(['Presentacion', 'PresentacionAck', 'Transaccion',
+    def add_log(self, msg: click.Choice(['Presentacion', 'PresentacionAck', 'Transaccion',
                 'TransaccionAck', 'TransaccionNueva', 'TransaccionNuevaAck', 'Bloque', 'BloqueAck']),
-                extra:str=None, timestamp=datetime.now()):
+                extra: str=None, timestamp=datetime.now()):
         """Add logs in log dir."""
         if not self.directory:
             self.directory = "data/logs"
-        
-        with open(f"{self.directory}","a+") as log_file:
+
+        with open(f"{self.directory}", "a+", encoding="utf-8") as log_file:
             log_file.write(f"Timestamp: {timestamp}\n")
             log_file.write(f"Mensaje: {msg}\n")
             if "Presentacion" in msg or not extra:
@@ -46,7 +44,6 @@ class Network:
             else:
                 log_file.write(f"Transaccion: {extra}\n")
 
-
     def to_dict(self):
         """To dict method."""
         return {
@@ -54,11 +51,10 @@ class Network:
             "identities": [str(identity) for identity in self.identities.identities],
             }
 
-    
     def read_node_file_for_transactions(self, path):
         """Read nodes file."""
-        self.transactions.config["nodes"]=set()
-        with open(path, "r") as my_file:
+        self.transactions.config["nodes"] = set()
+        with open(path, "r", encoding="utf-8") as my_file:
             lines = my_file.readlines()
             nodes_num = int(lines[0])
             nodes = lines[1:nodes_num+1]
@@ -70,22 +66,20 @@ class Network:
                     if node:
                         self.transactions.config["nodes"].add(node)
 
-
     def propagation(self, node, data):
         """Propagate info for nodes."""
         nodes = self.nodes.copy()
         nodes.remove(node)
         node.propagation(nodes, data)
 
-
     def read_network_file(self, path):
         """Read Network file."""
+        # pylint: disable=too-many-locals
         self.nodes = []
-        with open(path, "r") as my_file:
+        with open(path, "r", encoding="utf-8") as my_file:
             lines = my_file.readlines()
             nodes_num = int(lines[0])
             nodes = lines[1:nodes_num+1]
-            connections_num = int(lines[nodes_num+1])
             connections = lines[nodes_num+2:]
             for elem in nodes:
                 if elem:
@@ -110,7 +104,6 @@ class Network:
                         node1.adj.add(node2)
                         node2.adj.add(node1)
 
-
     def search_node_by_name(self, name):
         """Search node by name."""
         for elem in self.nodes:
@@ -118,10 +111,9 @@ class Network:
                 return elem
         return None
 
-
     def read_node_config(self, path):
         """Read the config file."""
-        with open(path,"r") as my_file:
+        with open(path,"r" , encoding="utf-8") as my_file:
             lines = my_file.readlines()
             max_size = int(lines[0].split(":")[1])
             avg_time = int(lines[1].split(":")[1])
@@ -134,22 +126,24 @@ class Network:
     def gen_block_0(self):
         """Generates Block 0 with base transactions."""
         outputs = []
-        for elem in network.identities.identities:
+        for elem in self.identities.identities:
             output = Output(elem, 10000000)
+            outputs.append(output)
 
-        transaction = network.transactions.gen_simple_transac(None, outputs=outputs)
+        transaction = self.transactions.gen_simple_transac(None, outputs=outputs)
         block_header = BlockHeader(None, 0, [transaction])
+        block_hash = ""
         block = Block(block_header, 0, block_hash, None, [transaction])
+        return block
 
-    def gen_random_transactions(self, identities:Identities, count=20):
+    def gen_random_transactions(self, count=20):
         """Generate random transactions."""
         secs = 60/self.transactions.config["frequency"]
         while count:
             sleep(secs)
             transaction = self.transactions.gen_random_transaction(self.identities, count)
             msg = f"TransaccionNueva\n{transaction.node.name}\n{str(transaction)}"
-            self.propagate(transaction.node,msg)
-
+            self.propagation(transaction.node, msg)
 
 
 

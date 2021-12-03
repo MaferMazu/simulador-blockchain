@@ -1,18 +1,18 @@
 """All declarations and functions about identity."""
-from models.common import create_hash
-
 from cryptos import Bitcoin
 from faker import Faker
 
+from models.common import create_hash
+
 faker = Faker()
+
 
 class Identity:
     """Class Identity."""
 
     def __init__(self, name, email):
         """Init function."""
-        # TODO: Crear una transaccion dummy de satoshis
-        self._name=name
+        self._name = name
         self._email = email
         self._privkey, self._pubkey, self._address = self._gen_keys()
 
@@ -45,7 +45,6 @@ class Identity:
         address = btc.pubtoaddr(pubkey)
         return privkey, pubkey, address
 
-
     def __str__(self):
         """String representation."""
         return self.name
@@ -58,16 +57,13 @@ class Identities:
         """Init function."""
         self.identities = []
 
-
     def __str__(self):
         """String representation."""
         return str(self.identities)
 
-
     def __len__(self):
         """Len representation."""
         return len(self.identities)
-
 
     def gen_x_identities(self, num):
         """Generates <num> identities with faker names."""
@@ -80,11 +76,10 @@ class Identities:
     def gen_x_nodes(self, num):
         """Generates <num> nodes."""
 
-        for i in range(1,num+1):
+        for i in range(1, num+1):
             node_name = f"nodo{i}"
             email = f"{node_name}@example.com"
             self.gen_identity(node_name, email)
-
 
     def gen_identity(self, name, email):
         """Generate identity with data."""
@@ -92,14 +87,12 @@ class Identities:
         identity = Identity(name, email)
         self.identities.append(identity)
 
-
     def search_by_name(self, name):
         """Search by name."""
         for elem in self.identities:
             if elem.name == name:
                 return elem
         return None
-
 
     def get_pubkey_by_name(self, name):
         """Return pubkey by name."""
