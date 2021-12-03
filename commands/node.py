@@ -6,14 +6,13 @@ from models.common import import_data, export_data
 
 
 @click.command(name="node")
-@click.argument("-n","name", default="nodo1", type=str, help="nombre de nodo a invocar")
+@click.option("-n","name", default="nodo1", type=str, help="nombre de nodo a invocar")
 @click.option("-d","direc", default="examples/file_examples", type=str, help="directorio de logs")
 @click.option("-f","file", default=None, type=str, help="archivo con info de la red")
 @click.option("-c","config", default=None, type=str, help="archivo de configuracion de los nodos")
 @click.option("-s","stop", is_flag=True, default=False)
-def node(name):
+def node(name, direc, file, config, stop):
     """Exec node."""
-    # pylint: disable=undefined-variable
     network = import_data("network")
 
     if config:
@@ -24,7 +23,7 @@ def node(name):
         click.echo(">> Se ha cargado el archivo de red.")
     if direc:
         network.directory = direc
-        click.echo(f">> Se ha asignado {dir} como directorio de logs.")
+        click.echo(f">> Se ha asignado {direc} como directorio de logs.")
     if name:
         node_to_activate = network.search_node_by_name(name)
         if node_to_activate:

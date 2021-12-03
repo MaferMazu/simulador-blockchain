@@ -1,12 +1,13 @@
 """Class Network."""
 from datetime import datetime
+from time import sleep
 
 import click
 
-from models.identity import Identities
-from models.transaction import Transactions, Output
-from models.node import Node
 from models.block import Block, BlockHeader
+from models.identity import Identities
+from models.node import Node
+from models.transaction import Output, Transactions
 
 
 class Network:
@@ -142,7 +143,7 @@ class Network:
 
     def gen_random_transactions(self, identities:Identities, count=20):
         """Generate random transactions."""
-        secs = 60/self.config["frequency"]
+        secs = 60/self.transactions.config["frequency"]
         while count:
             sleep(secs)
             transaction = self.transactions.gen_random_transaction(self.identities, count)
@@ -152,24 +153,24 @@ class Network:
 
 
 
-network = Network()
-network.identities.gen_x_identities(5)
-network.identities.gen_x_nodes(5)
-# import pudb; pu.db
-network.read_network_file("examples/file_examples/other_network_file.txt")
-nodo1 = network.search_node_by_name("nodo1")
-nodo2 = network.search_node_by_name("nodo2")
-nodo3 = network.search_node_by_name("nodo3")
-nodo1.start()
-nodo2.start()
-nodo3.start()
-nodo2.connect_with_node(nodo1.host, int(nodo1.port))
-nodo3.connect_with_node(nodo1.host, int(nodo1.port))
+# network = Network()
+# network.identities.gen_x_identities(5)
+# network.identities.gen_x_nodes(5)
+# # import pudb; pu.db
+# network.read_network_file("examples/file_examples/other_network_file.txt")
+# nodo1 = network.search_node_by_name("nodo1")
+# nodo2 = network.search_node_by_name("nodo2")
+# nodo3 = network.search_node_by_name("nodo3")
+# nodo1.start()
+# nodo2.start()
+# nodo3.start()
+# nodo2.connect_with_node(nodo1.host, int(nodo1.port))
+# nodo3.connect_with_node(nodo1.host, int(nodo1.port))
 
-network.read_node_file_for_transactions("examples/file_examples/other_node_file.txt")
+# network.read_node_file_for_transactions("examples/file_examples/other_node_file.txt")
 
-network.propagation(nodo2, "hola")
+# network.propagation(nodo2, "hola")
 
-nodo1.stop()
-nodo2.stop()
-nodo3.stop()
+# nodo1.stop()
+# nodo2.stop()
+# nodo3.stop()
