@@ -24,6 +24,7 @@ def node(name, direc, file, config, stop):
     if direc:
         network.directory = direc
         click.echo(f">> Se ha asignado {direc} como directorio de logs.")
+    export_data("network", network)
     if name:
         node_to_activate = network.search_node_by_name(name)
         if node_to_activate:
@@ -36,4 +37,4 @@ def node(name, direc, file, config, stop):
                 except ConnectionError as error:
                     node_to_activate.is_on = False
                     click.echo(f">> No se inicializó el nodo por el error:\n{error}.")
-    export_data("network", network)
+    

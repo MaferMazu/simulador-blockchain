@@ -1,6 +1,6 @@
 """File with common vars."""
 
-import pickle
+import dill as pickle
 from pathlib import Path
 from hashlib import sha256
 

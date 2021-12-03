@@ -15,7 +15,7 @@ class Network:
 
     def __init__(self, identities:Identities=Identities(), transactions:Transactions=Transactions()):
         """Init."""
-        self.nodes = []
+        self.nodes = list()
         self.identities = identities
         self.node_config = {"max_block_size": 512, "avgtime": 1, "difficulty": 1000}
         self.directory = None
