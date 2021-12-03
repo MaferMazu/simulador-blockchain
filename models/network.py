@@ -4,8 +4,9 @@ from datetime import datetime
 import click
 
 from models.identity import Identities
-from models.transaction import Transactions
+from models.transaction import Transactions, Output
 from models.node import Node
+from models.block import Block, BlockHeader
 
 
 class Network:
@@ -128,6 +129,28 @@ class Network:
                 "max_block_size": max_size,
                 "avgtime": avg_time,
                 "difficulty": difficulty}
+
+    def gen_block_0(self):
+        """Generates Block 0 with base transactions."""
+        outputs = []
+        for elem in network.identities.identities:
+            output = Output(elem, 10000000)
+
+        transaction = network.transactions.gen_simple_transac(None, outputs=outputs)
+        block_header = BlockHeader(None, 0, [transaction])
+        block = Block(block_header, 0, block_hash, None, [transaction])
+
+    def gen_random_transactions(self, identities:Identities, count=20):
+        """Generate random transactions."""
+        secs = 60/self.config["frequency"]
+        while count:
+            sleep(secs)
+            transaction = self.transactions.gen_random_transaction(self.identities, count)
+            msg = f"TransaccionNueva\n{transaction.node.name}\n{str(transaction)}"
+            self.propagate(transaction.node,msg)
+
+
+
 
 network = Network()
 network.identities.gen_x_identities(5)

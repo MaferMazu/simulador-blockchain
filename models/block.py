@@ -41,7 +41,15 @@ class Block:
         self.miner = miner
         self.transactions = transactions
         self.block_header = block_header
+        self.block_reward = 5000
+        self.fee_reward = self.calculate_total_fee()
         self.block_size = self._calculate_block_size()
+
+    def calculate_total_fee(self):
+        """Calculate total fee."""
+        fee = 0
+        for transaction in self.transactions:
+            fee += transaction.get_fee()
 
 
     def _calculate_block_size(self):

@@ -25,16 +25,15 @@ def gen_transac():
         network.read_node_file_for_transactions(file)
         click.echo(">> Se ha cargado el archivo de nodos.")
 
-    ## Empieza la ejecucion
-    ## Por sleep para saber cada cuanto crear transacciones
+    network.transactions.gen_random_transactions(network.identities,count)
 
 
 @click.command(name="genIdenti")
-@click.option("-i","identities", default=3, type=int, help="numero de identidades a generar")
-@click.option("-n","nodes", default=3, type=int, help="numero de nodos a generar")
+@click.argument("-i","identities", default=3, type=int, help="numero de identidades a generar")
+@click.argument("-n","nodes", default=3, type=int, help="numero de nodos a generar")
 def gen_identi(identities, nodes):
     """Generate identities and nodes."""
-
+    import pudb; pu.db
     network = Network()
     network.identities.gen_x_identities(identities)
     network.identities.gen_x_nodes(nodes)

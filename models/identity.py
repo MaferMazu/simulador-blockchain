@@ -1,5 +1,5 @@
 """All declarations and functions about identity."""
-from hashlib import sha256
+from models.common import create_hash
 
 from cryptos import Bitcoin
 from faker import Faker
@@ -40,7 +40,7 @@ class Identity:
         """Create a priv_key, a pub_key and an address from name and email."""
         btc = Bitcoin()
         passphrase = f"{self.name} {self.email}"
-        privkey = sha256(passphrase.encode('utf-8')).hexdigest()
+        privkey = create_hash(passphrase)
         pubkey = btc.privtopub(privkey)
         address = btc.pubtoaddr(pubkey)
         return privkey, pubkey, address

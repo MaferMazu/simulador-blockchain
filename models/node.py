@@ -25,7 +25,7 @@ class Node(P2PNode):
         self.identity = identity
 
     def propagation(self, nodes, data):
-        import pudb; pu.db
+        # import pudb; pu.db
         neightbors = list(self.adj)
         to_propagate = [elem for elem in neightbors if elem in nodes and elem.is_on]
         for elem in to_propagate:
