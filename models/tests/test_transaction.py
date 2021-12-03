@@ -1,10 +1,9 @@
 """Test Transaction Class and Functions."""
 
-from models.identity import Identities, Identity
-
 from models.common import create_hash
+from models.identity import Identities, Identity
 from models.node import Node
-from models.transaction import *
+from models.transaction import Output, Transaction, Transactions, calculate_satoshis
 
 
 def test_output():
