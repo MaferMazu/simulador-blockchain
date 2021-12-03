@@ -11,7 +11,7 @@ requirements: ## install development environment requirements
 	pip install -r requirements/base.txt
 
 test: ## run unitary tests and meassure coverage
-	coverage run -m pytest
+	coverage run --source=models -m pytest
 	coverage report -m --fail-under=62
 
 quality: ## check coding style with pycodestyle and pylint
