@@ -20,7 +20,6 @@ def test_read_network_file():
     network.identities.gen_x_identities(5)
     network.identities.gen_x_nodes(5)
     network.read_network_file("examples/file_examples/network_file.txt")
-    print(len(network.identities))
     assert len(network.identities) == 10
     assert len(network.nodes) == 5
     nodo1 = network.search_node_by_name("nodo1")
@@ -51,7 +50,6 @@ def test_read_node_file_for_transactions():
     network.identities.gen_x_identities(5)
     network.identities.gen_x_nodes(5)
     network.read_network_file("examples/file_examples/other_network_file.txt")
-    print(len(network.identities))
     nodo1 = network.search_node_by_name("nodo1")
     nodo2 = network.search_node_by_name("nodo2")
     nodo3 = network.search_node_by_name("nodo3")

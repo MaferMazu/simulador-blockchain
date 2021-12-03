@@ -1,9 +1,9 @@
 """File with common vars."""
-
 from hashlib import sha256
 from math import log
 from pathlib import Path
 
+import click
 import dill as pickle
 
 location = Path(__file__).absolute().parent.parent
@@ -32,7 +32,7 @@ def proof_of_work(header, difficulty: int):
     # calculate the difficulty target
     difficulty_bits = log(difficulty, 2)
     target = 2 ** (256 - difficulty_bits)
-    print(f"Target {target}")
+    click.echo(f"Target {target}")
 
     for nonce in range(MAX_NONCE):
         hash_result = sha256((str(header)+str(nonce)).encode('utf-8')).hexdigest()
@@ -40,12 +40,12 @@ def proof_of_work(header, difficulty: int):
         # check if this is a valid result, below the target
         try:
             if int(hash_result, 16) < target:
-                print(f"Success with nonce {nonce}")
-                print(f"Hash is {hash_result}")
+                click.echo(f"Success with nonce {nonce}")
+                click.echo(f"Hash is {hash_result}")
 
                 return (hash_result, nonce)
         except ValueError:
             pass
 
-    print(f"Failed after {nonce} (max_nonce) tries")
+    click.echo(f"Failed after {nonce} (max_nonce) tries")
     return nonce, hash_result

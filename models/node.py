@@ -5,7 +5,7 @@ from p2pnetwork.node import Node as P2PNode
 
 class Node(P2PNode):
     """Class Node."""
-     # pylint: disable=too-many-arguments
+     # pylint: disable=too-many-arguments, too-many-instance-attributes
     def __init__(self, node_id, port, host="127.0.0.1",
                 callback=None, max_connections=0, is_on=False,
                 identity=None):
@@ -19,10 +19,8 @@ class Node(P2PNode):
         self.is_on = is_on
         self.identity = identity
 
-
     def propagation(self, nodes, data):
         """Function to propagate info."""
-        # import pudb; pu.db
         neightbors = list(self.adj)
         to_propagate = [elem for elem in neightbors if elem in nodes and elem.is_on]
         for elem in to_propagate:
@@ -30,9 +28,10 @@ class Node(P2PNode):
             node_connection = self.get_node_connection(elem)
             if not node_connection:
                 self.connect_with_node(elem.host, elem.port)
-                print(f"Se conocieron {self.name} y {elem.name}")
+                click.echo(f"Se conocieron {self.name} y {elem.name}")
                 node_connection = self.get_node_connection(elem)
             self.send_to_node(node_connection, data)
+            click.echo(f"Se envió un mensaje de {self.name} a {elem.name}:\n{str(data)}")
             elem.propagation(nodes, data)
 
     def start(self):
@@ -66,28 +65,24 @@ class Node(P2PNode):
 
     def outbound_node_connected(self, node):
         """outbound_node_connected."""
-        print("outbound_node_connected (" + self.id + "): " + node.id)
+        click.echo("outbound_node_connected (" + self.id + "): " + node.id)
 
     def inbound_node_connected(self, node):
         """inbound_node_connected."""
-        print("inbound_node_connected: (" + self.id + "): " + node.id)
+        click.echo("inbound_node_connected: (" + self.id + "): " + node.id)
 
     def inbound_node_disconnected(self, node):
         """inbound_node_disconnected."""
-        print("inbound_node_disconnected: (" + self.id + "): " + node.id)
+        click.echo("inbound_node_disconnected: (" + self.id + "): " + node.id)
 
     def outbound_node_disconnected(self, node):
         """outbound_node_disconnected."""
-        print("outbound_node_disconnected: (" + self.id + "): " + node.id)
-
-    def node_message(self, node, data):
-        """Def of node message."""
-        click.echo(f"Se envió un mensaje desde {node.name}")
+        click.echo("outbound_node_disconnected: (" + self.id + "): " + node.id)
 
     def node_disconnect_with_outbound_node(self, node):
         """node_disconnect_with_outbound_node."""
-        print("node wants to disconnect with oher outbound node: (" + self.id + "): " + node.id)
+        click.echo("node wants to disconnect with oher node: (" + self.id + "): " + node.id)
 
     def node_request_to_stop(self):
         """node_request_to_stop."""
-        print("node is requested to stop (" + self.id + "): ")
+        click.echo("node is requested to stop (" + self.id + "): ")
