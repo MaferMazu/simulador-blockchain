@@ -3,22 +3,28 @@ attrs==21.2.0
 certifi==2021.10.8
 charset-normalizer==2.0.7
 click==8.0.3
+click-threading==0.5.0
 coverage==6.1.1
 cryptos==1.36
+dill==0.3.4
 Faker==9.8.1
 idna==3.3
 iniconfig==1.1.1
 isort==5.10.0
+jedi==0.18.1
 lazy-object-proxy==1.6.0
 mccabe==0.6.1
 merkletools==1.0.3
+-e git+git@github.com:MaferMazu/python-p2p-network.git@4393bc46e7c3c406f8b424413dcc63214f49878c#egg=p2pnetwork
 packaging==21.2
+parso==0.8.2
 platformdirs==2.4.0
 pluggy==1.0.0
 pudb==2021.2.2
 py==1.11.0
 pycodestyle==2.8.0
 pydocstyle==6.1.1
+Pygments==2.10.0
 pylint==2.11.1
 pyparsing==2.4.7
 pysha3==1.0.2
@@ -31,5 +37,6 @@ text-unidecode==1.3
 toml==0.10.2
 typing-extensions==3.10.0.2
 urllib3==1.26.7
+urwid==2.1.2
+urwid-readline==0.13
 wrapt==1.13.3
-git+https://github.com/MaferMazu/python-p2p-network.git@mfmz/blockchain-simulator#egg=p2pnetwork
