@@ -2,6 +2,10 @@
 
 Es una aplicación P2P desarrollada en Python que simula el comportamiento de una red Blockchain simplificada. Este prototipo usa las definiciones de bloques y transacciones como las usadas por la red Bitcoin.
 
+Estado del proyecto: Incompleto 😭
+
+Video explicativo de lo que sí funciona y los errores actuales: https://youtu.be/J7Ll3LQFyo0
+
 ## 🔥 Instalación
 
 ```shell
