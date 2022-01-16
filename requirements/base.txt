@@ -15,7 +15,7 @@ jedi==0.18.1
 lazy-object-proxy==1.6.0
 mccabe==0.6.1
 merkletools==1.0.3
--e git+git@github.com:MaferMazu/python-p2p-network.git@4393bc46e7c3c406f8b424413dcc63214f49878c#egg=p2pnetwork
+git+https://github.com/MaferMazu/python-p2p-network.git@mfmz/blockchain-simulator#egg=p2pnetwork
 packaging==21.2
 parso==0.8.2
 platformdirs==2.4.0
